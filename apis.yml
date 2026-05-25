@@ -1,0 +1,494 @@
+aid: formant
+name: Formant
+description: >-
+  Formant is a San Francisco–based robotics and physical-operations cloud
+  platform that lets companies operate fleets of robots and advanced
+  connected devices. The Formant software platform implements workflows for
+  remote monitoring, intervention requests, data management, teleoperation,
+  tech-support investigations, and business analysis, and exposes an
+  extensible cloud infrastructure that can be built upon to create custom
+  robot management experiences. The product surface spans an on-robot
+  Formant Agent (ingesting telemetry from ROS / ROS2 / non-ROS sources via
+  configurable adapters), a REST Admin API at `api.formant.io/v1/admin`, a
+  Python package (`pip install formant`) that bundles both a Cloud SDK
+  (query and ingest data programmatically) and an Agent SDK (post telemetry,
+  handle commands, drive teleoperation from robot-side Python), a Data SDK
+  for JavaScript/TypeScript that powers custom views, modules, and embedded
+  experiences, the `fctl` command-line tool for SSH / SCP / port-forwarding
+  over Formant's peer-to-peer connection, and Formant Metaphysics — an
+  AI-powered incident-management layer that automates alarm triage,
+  predictive maintenance, and SOP-driven investigations across SCADA,
+  Snowflake, Slack, and Teams. The API is organized around devices, fleets,
+  streams, views, commands, events, annotations, intervention requests,
+  files, key-value storage, roles, users, schedules, analytics, and
+  presence/online monitoring. Formant's GitHub organization (FormantIO)
+  publishes the ROS / ROS2 adapter, a Boston Dynamics Spot adapter, an
+  ONVIF camera adapter, a P2P adapter, Cradlepoint adapter, the Toolkit
+  meta-repo for building on Formant APIs, the 3D viewer module, custom
+  module boilerplate, Data SDK examples for Node.js and React Native, a
+  Homebrew tap for `fctl`, and a public JSON-schema repo for module
+  configuration.
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/formant/refs/heads/main/apis.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.20'
+tags:
+  - Robotics
+  - Robot Fleet Management
+  - Teleoperation
+  - Observability
+  - Telemetry
+  - ROS
+  - ROS2
+  - Edge Devices
+  - Physical Operations
+  - Incident Management
+  - Industrial AI
+  - SCADA
+  - Predictive Maintenance
+  - Remote Monitoring
+  - Embedded Devices
+kind: contract
+position: Consuming
+access: 3rd-Party
+apis:
+  - aid: formant:formant-admin-api
+    name: Formant Admin API
+    description: >-
+      Formant's primary REST API, served from `https://api.formant.io/v1/admin`.
+      Covers devices, fleets, streams, views, teleop views, commands and command
+      templates, schedules, events and custom events, annotations and annotation
+      templates, files (multipart begin/complete upload), key-value storage,
+      intervention requests and responses, document sets, insights, roles,
+      users, service accounts, tag templates, task summaries and task-summary
+      formats, sharing tokens, analytics (aggregates, datapoints, table/columns,
+      task reports), presence and online-device monitoring, usage metrics, and
+      stream current-value queries. Endpoints follow a `<resource>controller`
+      naming convention (e.g. `devicecontrollerquery`, `eventcontrollerhistogram`,
+      `fleetcontrollergetdevices`). The reference is rendered as ReadMe-hosted
+      OpenAPI pages but Formant does not publish a single downloadable
+      OpenAPI spec file.
+    humanURL: https://docs.formant.io/reference
+    baseURL: https://api.formant.io/v1/admin
+    tags:
+      - Admin
+      - Devices
+      - Fleets
+      - Streams
+      - Events
+      - Commands
+      - Teleoperation
+    properties:
+      - type: Documentation
+        url: https://docs.formant.io/reference
+      - type: Documentation
+        url: https://docs.formant.io/reference/devicecontrollerpost
+      - type: Documentation
+        url: https://docs.formant.io/reference/fleetcontrollerlist
+      - type: Documentation
+        url: https://docs.formant.io/reference/eventcontrollerquery
+      - type: Documentation
+        url: https://docs.formant.io/reference/commandcontrollerpost
+      - type: Documentation
+        url: https://docs.formant.io/reference/viewcontrollerpost
+      - type: Documentation
+        url: https://docs.formant.io/reference/interventionrequestcontrollerpost
+      - type: Documentation
+        url: https://docs.formant.io/reference/filecontrollerbeginupload
+      - type: Documentation
+        url: https://docs.formant.io/reference/analyticscontrollerlistaggregates
+      - type: Documentation
+        url: https://docs.formant.io/reference/authcontrollerlogin
+      - type: Authentication
+        url: https://docs.formant.io/reference/authcontrollerlogin
+      - type: ServiceAccount
+        url: https://docs.formant.io/docs/getting-started-create-a-service-account
+  - aid: formant:formant-agent-sdk
+    name: Formant Agent SDK
+    description: >-
+      Python client embedded in the `formant` PyPI package (`pip install formant`,
+      `from formant.sdk.agent.v1 import Client`). Runs on-robot alongside the
+      Formant agent and exposes typed ingestion methods — `post_image`,
+      `post_numeric`, `post_numericset`, `post_bitset`, `post_text`,
+      `post_geolocation`, `post_battery`, `post_json` — plus
+      `register_command_request_callback` / `send_command_response` for
+      bidirectional command handling and teleoperation hooks. Stream creation is
+      implicit on first ingest. Use it when you are not on ROS and want to drive
+      Formant from robot-side Python, or when you want finer-grained control than
+      the ROS adapter provides.
+    humanURL: https://docs.formant.io/reference/agent-sdk-installation-and-overview
+    tags:
+      - SDK
+      - Agent
+      - Python
+      - Telemetry
+    properties:
+      - type: Documentation
+        url: https://docs.formant.io/reference/agent-sdk-installation-and-overview
+      - type: Documentation
+        url: https://docs.formant.io/reference/agent-sdk-reference
+      - type: Documentation
+        url: https://docs.formant.io/reference/agent-sdk-protos
+      - type: SDK
+        url: https://pypi.org/project/formant/
+  - aid: formant:formant-cloud-sdk
+    name: Formant Cloud SDK
+    description: >-
+      Python client embedded in the `formant` PyPI package
+      (`from formant.sdk.cloud.v1 import Client`). Wraps the Admin API for
+      programmatic query and ingest of datapoints against your Formant
+      organization without going through the agent. Authentication uses
+      `FORMANT_EMAIL` / `FORMANT_PASSWORD` environment variables, or service
+      account credentials generated via the web app or `fctl`.
+    humanURL: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
+    tags:
+      - SDK
+      - Cloud
+      - Python
+      - Data Ingestion
+      - Data Query
+    properties:
+      - type: Documentation
+        url: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
+      - type: Documentation
+        url: https://docs.formant.io/reference/cloud-sdk-reference
+      - type: SDK
+        url: https://pypi.org/project/formant/
+  - aid: formant:formant-data-sdk
+    name: Formant Data SDK (JavaScript / TypeScript)
+    description: >-
+      Browser- and Node-side JavaScript / TypeScript SDK for building custom
+      modules, custom views, and embedded experiences against Formant's
+      real-time and historical data planes. Powers the UI Toolkit, custom 3D
+      viewer layers, real-time video modules, and intermodule communication.
+      Reference implementations include FormantMobile (React Native),
+      node-data-sdk (Node.js), realtime-sdk-template / -guide / -video-demo,
+      view-embed-react-wrapper, and the broader FormantIO/toolkit meta-repo.
+    humanURL: https://docs.formant.io/reference/data-sdk-1
+    tags:
+      - SDK
+      - JavaScript
+      - TypeScript
+      - Realtime
+      - Custom Modules
+    properties:
+      - type: Documentation
+        url: https://docs.formant.io/reference/data-sdk-1
+      - type: Documentation
+        url: https://docs.formant.io/reference/data-sdk-tour
+      - type: Documentation
+        url: https://docs.formant.io/reference/ui-toolkit
+      - type: Documentation
+        url: https://docs.formant.io/reference/web-toolkit-overview
+      - type: SourceCode
+        url: https://github.com/FormantIO/toolkit
+      - type: SourceCode
+        url: https://github.com/FormantIO/node-data-sdk
+      - type: SourceCode
+        url: https://github.com/FormantIO/FormantMobile
+common:
+  - type: Portal
+    url: https://formant.io
+  - type: Documentation
+    url: https://docs.formant.io
+  - type: Documentation
+    name: API & SDK Reference
+    url: https://docs.formant.io/reference
+  - type: GettingStarted
+    url: https://docs.formant.io/docs/getting-started-overview
+  - type: Documentation
+    name: System Requirements
+    url: https://docs.formant.io/docs/system-requirements
+  - type: Documentation
+    name: Formant Agent
+    url: https://docs.formant.io/docs/the-formant-agent
+  - type: Documentation
+    name: Adapters Overview
+    url: https://docs.formant.io/docs/adapters
+  - type: Documentation
+    name: ROS 2 Adapter
+    url: https://docs.formant.io/docs/ros-2-adapter
+  - type: Documentation
+    name: Cloud SDK
+    url: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
+  - type: Documentation
+    name: Agent SDK
+    url: https://docs.formant.io/reference/agent-sdk-installation-and-overview
+  - type: Documentation
+    name: Data SDK
+    url: https://docs.formant.io/reference/data-sdk-1
+  - type: Documentation
+    name: fctl CLI Overview
+    url: https://docs.formant.io/reference/fctl-overview-and-installation
+  - type: Documentation
+    name: Teleoperation Getting Started
+    url: https://docs.formant.io/docs/getting-started-teleoperation
+  - type: Documentation
+    name: Advanced Teleoperation
+    url: https://docs.formant.io/docs/advanced-teleoperation-introduction
+  - type: Documentation
+    name: Fleet Observability
+    url: https://docs.formant.io/docs/fleet-observability
+  - type: Documentation
+    name: Incident Management
+    url: https://docs.formant.io/docs/incident-management
+  - type: Documentation
+    name: Analytics
+    url: https://docs.formant.io/docs/analytics
+  - type: Documentation
+    name: Annotations
+    url: https://docs.formant.io/docs/annotations
+  - type: Documentation
+    name: Embedded Views
+    url: https://docs.formant.io/docs/embedded-views
+  - type: Documentation
+    name: Integrations Overview
+    url: https://docs.formant.io/docs/integrations-overview
+  - type: Documentation
+    name: Configure Google SSO
+    url: https://docs.formant.io/docs/configure-google-sso
+  - type: Documentation
+    name: Configure OIDC SSO
+    url: https://docs.formant.io/docs/configure-openid-connect-oidc-sso
+  - type: Documentation
+    name: Send Events to PagerDuty
+    url: https://docs.formant.io/docs/send-events-to-pagerduty
+  - type: Documentation
+    name: Send Events to Slack
+    url: https://docs.formant.io/docs/send-events-to-slack
+  - type: Documentation
+    name: Trigger Webhooks from Events
+    url: https://docs.formant.io/docs/trigger-webhooks-from-events
+  - type: Documentation
+    name: SDK Versions, Distributions, Changelogs and Licensing
+    url: https://docs.formant.io/docs/sdk-versions-distributions-changelogs-and-licensing
+  - type: Recipes
+    url: https://docs.formant.io/recipes
+  - type: ChangeLog
+    url: https://docs.formant.io/changelog
+  - type: Roadmap
+    url: https://feedback.formant.io/feedback
+  - type: AIIndex
+    name: llms.txt
+    url: https://docs.formant.io/llms.txt
+  - type: SignUp
+    url: https://app.formant.io/signup
+  - type: SignIn
+    url: https://app.formant.io
+  - type: GitHubOrganization
+    url: https://github.com/FormantIO
+  - type: SourceCode
+    name: Software releases & development resources
+    url: https://github.com/FormantIO/formant
+  - type: SourceCode
+    name: FormantIO/toolkit — open libraries and docs for building on Formant APIs
+    url: https://github.com/FormantIO/toolkit
+  - type: SourceCode
+    name: FormantIO/ros2-adapter
+    url: https://github.com/FormantIO/ros2-adapter
+  - type: SourceCode
+    name: FormantIO/formant-ros — ROS 1 adapter
+    url: https://github.com/FormantIO/formant-ros
+  - type: SourceCode
+    name: FormantIO/adapters — all Formant agent adapters
+    url: https://github.com/FormantIO/adapters
+  - type: SourceCode
+    name: FormantIO/formant-spot-adapter — Boston Dynamics Spot adapter
+    url: https://github.com/FormantIO/formant-spot-adapter
+  - type: SourceCode
+    name: FormantIO/formant-onvif-adapter — ONVIF camera adapter
+    url: https://github.com/FormantIO/formant-onvif-adapter
+  - type: SourceCode
+    name: FormantIO/formant-p2p-adapter
+    url: https://github.com/FormantIO/formant-p2p-adapter
+  - type: SourceCode
+    name: FormantIO/Cradlepoint_adapter
+    url: https://github.com/FormantIO/Cradlepoint_adapter
+  - type: SourceCode
+    name: FormantIO/ping-adapter
+    url: https://github.com/FormantIO/ping-adapter
+  - type: SourceCode
+    name: FormantIO/formant-proxy-adapter
+    url: https://github.com/FormantIO/formant-proxy-adapter
+  - type: SourceCode
+    name: FormantIO/formant-speak-robot-adapter
+    url: https://github.com/FormantIO/formant-speak-robot-adapter
+  - type: SourceCode
+    name: FormantIO/formant-agent-plugins
+    url: https://github.com/FormantIO/formant-agent-plugins
+  - type: SourceCode
+    name: FormantIO/3d-viewer-module
+    url: https://github.com/FormantIO/3d-viewer-module
+  - type: SourceCode
+    name: FormantIO/custom-module-boilerplate
+    url: https://github.com/FormantIO/custom-module-boilerplate
+  - type: SourceCode
+    name: FormantIO/build-a-module — module-building example
+    url: https://github.com/FormantIO/build-a-module
+  - type: SourceCode
+    name: FormantIO/node-data-sdk — Data SDK usage in Node.js
+    url: https://github.com/FormantIO/node-data-sdk
+  - type: SourceCode
+    name: FormantIO/FormantMobile — React Native example
+    url: https://github.com/FormantIO/FormantMobile
+  - type: SourceCode
+    name: FormantIO/realtime-sdk-template
+    url: https://github.com/FormantIO/realtime-sdk-template
+  - type: SourceCode
+    name: FormantIO/realtime-sdk-guide
+    url: https://github.com/FormantIO/realtime-sdk-guide
+  - type: SourceCode
+    name: FormantIO/realtime-video-demo
+    url: https://github.com/FormantIO/realtime-video-demo
+  - type: SourceCode
+    name: FormantIO/view-embed-react-wrapper
+    url: https://github.com/FormantIO/view-embed-react-wrapper
+  - type: SourceCode
+    name: FormantIO/universe-localization-example
+    url: https://github.com/FormantIO/universe-localization-example
+  - type: SourceCode
+    name: FormantIO/schemas — JSON schemas used by Formant modules
+    url: https://github.com/FormantIO/schemas
+  - type: SourceCode
+    name: FormantIO/homebrew-formant — Homebrew tap for fctl
+    url: https://github.com/FormantIO/homebrew-formant
+  - type: SourceCode
+    name: FormantIO/OfflineCommands
+    url: https://github.com/FormantIO/OfflineCommands
+  - type: SourceCode
+    name: FormantIO/dataviz-chatgpt — ChatGPT prompts for Formant dataviz
+    url: https://github.com/FormantIO/dataviz-chatgpt
+  - type: SourceCode
+    name: FormantIO/formant-institutional-skills — Formant skills for Claude Code
+    url: https://github.com/FormantIO/formant-institutional-skills
+  - type: SourceCode
+    name: FormantIO/formant-style-guide — Formant Brand Style Guide 2026
+    url: https://github.com/FormantIO/formant-style-guide
+  - type: SDK
+    name: Python (PyPI)
+    url: https://pypi.org/project/formant/
+  - type: Tool
+    name: fctl CLI
+    url: https://docs.formant.io/reference/fctl-overview-and-installation
+  - type: SignUp
+    url: https://app.formant.io/signup
+  - type: Pricing
+    url: https://formant.io/pricing
+  - type: Blog
+    name: Notes
+    url: https://formant.io/notes
+  - type: Podcast
+    url: https://www.youtube.com/@formantinc/podcasts
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/formant
+  - type: Twitter
+    url: https://twitter.com/formantio
+  - type: YouTube
+    url: https://www.youtube.com/@formantinc
+  - type: Features
+    data:
+      - REST Admin API at `https://api.formant.io/v1/admin` covering devices, fleets, streams, views, commands, events, annotations, files, intervention requests, key-value storage, roles, users, schedules, analytics, presence/online monitoring, and usage metrics
+      - Formant Agent — on-robot daemon with adapters for ROS, ROS 2, Boston Dynamics Spot, ONVIF cameras, Cradlepoint, ZeroMQ, JSON decomposition, and ROS Service
+      - Python package (`pip install formant`) bundling both Cloud SDK and Agent SDK clients
+      - Cloud SDK — programmatic ingest and query of Formant datapoints from Python (`formant.sdk.cloud.v1.Client`)
+      - Agent SDK — on-robot Python client with typed ingestion (`post_numeric`, `post_image`, `post_geolocation`, `post_json`, …) and command-handler callbacks
+      - Data SDK — JavaScript/TypeScript SDK for custom modules, custom views, embedded views, real-time video, and intermodule communication
+      - UI Toolkit and Web Toolkit for building custom views and dashboards
+      - 3D Scene module with custom-layer extensibility (open-source 3d-viewer-module)
+      - Teleoperation — WebRTC-backed real-time control with command buttons, marker arrays, scene module, and multi-image streaming
+      - Custom modules via `custom-module-boilerplate` and `build-a-module`
+      - Embedded Views with auth-token generation (`generate-auth-token-for-embedded-view`)
+      - Intervention Requests — human-in-the-loop intervention workflow with paired request / response resources
+      - Annotations — templated, queryable annotations across telemetry streams with spreadsheet inspection
+      - Task Summaries and Task Summary Formats for mission and task reporting
+      - Insights — stored AI-driven insights and insight results
+      - Suggestion API — AI-engine document store, nearest-document search, video frame extraction
+      - Custom Events and batch event ingestion
+      - Event histograms, severity / device / type aggregations, and event export to Google Sheets
+      - File API with begin/complete multipart upload, signed S3 URLs, query and tag updates
+      - Key-Value Storage for per-organization persistent state
+      - Roles and Service Accounts with administrator, operator, viewer, and device authorization levels
+      - SSO via Google and generic OIDC; user invitation, refresh, and external-token login flows
+      - Schedules — cron-style scheduling of command templates against fleets
+      - Sharing tokens — paginated query of external share links
+      - Analytics — aggregate queries, table/column introspection, datapoint query, task reports, and custom SQL
+      - Usage Metrics — programmatic consumption reporting
+      - Online-device / presence monitoring with `lastSeen` and stream counts (v1 + v2)
+      - Tag Templates and bulk tag application across devices and fleets
+      - Document Sets — grouped organizational documents for AI / SOP retrieval
+      - Sigma analytics embed-URL generation
+      - PagerDuty, Slack, Google Sheets, SMS, and arbitrary webhook integrations
+      - White-labeled robotics interface and custom-theme support
+      - fctl CLI for SSH, SCP, port-forwarding, and remote shell over Formant's peer-to-peer connection
+      - Bulk and automated device provisioning with re-provisioning support
+      - Configuration templates applied across device groups
+      - Audit logs for organizational changes
+      - Formant Metaphysics — AI incident-management platform with autonomous alarm triage, predictive maintenance, and SOP-driven investigations across SCADA, Snowflake, Slack, and Teams
+      - llms.txt index for AI-agent consumption of all docs and OpenAPI endpoints
+    sources:
+      - https://docs.formant.io/reference
+      - https://docs.formant.io/llms.txt
+      - https://docs.formant.io
+      - https://github.com/FormantIO
+      - https://formant.io
+    updated: '2026-05-25'
+  - type: Integrations
+    data:
+      - ROS 1
+      - ROS 2
+      - Boston Dynamics Spot
+      - ONVIF cameras
+      - Cradlepoint cellular routers
+      - Jetson / JetBot
+      - Universal Robots
+      - Foxglove Studio (forked viewer)
+      - Webviz (forked viewer)
+      - ZeroMQ
+      - JSON / file-tail / directory-watch ingestion
+      - PagerDuty
+      - Slack
+      - Microsoft Teams
+      - Google Workspace (Sheets, SSO)
+      - Generic OIDC SSO
+      - AWS S3 export
+      - Google Cloud Platform export
+      - Snowflake
+      - SCADA systems
+      - Sigma Computing (embed URL)
+      - SMS / event-triggered SMS
+      - Generic webhooks
+    sources:
+      - https://docs.formant.io
+      - https://github.com/FormantIO
+    updated: '2026-05-25'
+  - type: Solutions
+    data:
+      - Fleet observability for service, delivery, and industrial robotics
+      - Robot teleoperation and remote intervention
+      - Multi-device data ingestion, storage, and replay (ROS bag–style)
+      - White-labeled robot management portals for OEMs
+      - Incident management and AI alarm triage for physical operations
+      - Predictive maintenance and equipment-lifecycle extension
+      - Mission planning and task-summary reporting
+      - Compliance audit trails for fleet operations
+      - Embedded operator views inside third-party applications
+      - Field-service investigation workflows with AI-suggested documents
+    sources:
+      - https://formant.io
+      - https://docs.formant.io
+    updated: '2026-05-25'
+  - type: Customers
+    data:
+      - Tier 1 semiconductor OEMs (aggregated)
+      - Hardware OEMs (aggregated)
+      - Service robotics fleet operators
+      - Industrial automation and manufacturing operators
+    sources:
+      - https://formant.io
+    updated: '2026-05-25'
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
+    X: apievangelist
+    url: https://apievangelist.com
