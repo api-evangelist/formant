@@ -1,0 +1,459 @@
+openapi: 3.0.0
+info:
+  title: Formant Admin API
+  description: >-
+    Welcome to Formant's developer documentation. This page covers the common
+    API endpoints for making custom experiences with Formant.io — a robotics
+    and physical-operations cloud platform. The API covers authentication,
+    device and fleet management, command dispatch, stream current-value queries,
+    and more.
+  version: 1.37.3
+  contact:
+    name: Formant Support
+    url: https://docs.formant.io
+servers:
+  - url: https://api.formant.io/v1
+    description: Formant production API
+paths:
+  /admin/auth/login:
+    post:
+      description: >-
+        Login with your user credentials or service account credentials to get
+        an auth token that can be used to access the other API endpoints.
+      operationId: AuthController.login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        description: LoginRequest
+        required: true
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResult"
+        "401":
+          description: Invalid credentials
+      summary: Login and get an auth bearer token
+      tags:
+        - Authentication
+  /admin/command-templates/:
+    get:
+      description: List commands that you can send to your devices.
+      operationId: CommandTemplateController.list
+      responses:
+        "200":
+          description: List of command templates
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommandTemplateListResponse"
+        "401":
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+      summary: List the commands available
+      tags:
+        - Commands
+  /admin/commands:
+    post:
+      description: Create a command that will be received by a device when it is next online.
+      operationId: CommandController.post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Command"
+        description: Command
+        required: true
+      responses:
+        "201":
+          description: Command created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Command"
+        "401":
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+      summary: Send a command to a device
+      tags:
+        - Commands
+  /queries/stream-current-value:
+    post:
+      description: Query the most recent values of devices.
+      operationId: StreamCurrentValueController.query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScopeFilter"
+        description: ScopeFilter
+        required: false
+      responses:
+        "200":
+          description: Current stream values for matching devices
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamCurrentValueListResponse"
+        "401":
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+      summary: Query the most recent values of one or many devices
+      tags:
+        - Data Access
+components:
+  schemas:
+    LoginRequest:
+      description: Credentials for authenticating with the Formant API.
+      example:
+        email: me@mycompany.com
+        password: "12345"
+      properties:
+        email:
+          format: email
+          type: string
+          description: User email address or service account email.
+        password:
+          type: string
+          description: User password or service account secret.
+      required:
+        - email
+        - password
+      type: object
+    Authentication:
+      description: JWT authentication result returned on successful login.
+      example:
+        organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        isSuperuser: true
+        accessToken: eyJhbGciOiJSUzI1NiJ9...
+        userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        refreshToken: eyJhbGciOiJSUzI1NiJ9...
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the authenticated organization.
+        isSuperuser:
+          type: boolean
+          description: Whether the authenticated user has superuser privileges.
+        accessToken:
+          type: string
+          description: Short-lived JWT bearer token for API calls.
+        userId:
+          format: uuid
+          type: string
+          description: UUID of the authenticated user.
+        refreshToken:
+          type: string
+          description: Long-lived token used to refresh the accessToken.
+      required:
+        - accessToken
+        - userId
+        - organizationId
+      type: object
+    Challenge:
+      description: Authentication challenge for first-login scenarios (e.g. password reset required).
+      example:
+        session: session-string
+        type: new-password-required
+        userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        email: me@mycompany.com
+      properties:
+        session:
+          type: string
+          description: Session token for the challenge flow.
+        type:
+          type: string
+          enum:
+            - new-password-required
+          description: Type of challenge that must be satisfied.
+        userId:
+          format: uuid
+          type: string
+          description: UUID of the user subject to the challenge.
+        email:
+          type: string
+          description: Email of the user subject to the challenge.
+      type: object
+    LoginResult:
+      description: Response returned by the login endpoint.
+      example:
+        challenge:
+          session: session
+          type: new-password-required
+          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          email: user@example.com
+        authentication:
+          organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          isSuperuser: true
+          accessToken: accessToken
+          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          refreshToken: refreshToken
+      properties:
+        authentication:
+          $ref: "#/components/schemas/Authentication"
+        challenge:
+          $ref: "#/components/schemas/Challenge"
+      required:
+        - authentication
+      type: object
+    CommandParameter:
+      description: Optional parameter value and scrubber time attached to a command.
+      example:
+        scrubberTime: 2000-01-23T04:56:07.000+00:00
+        value: hello!
+      properties:
+        value:
+          maxLength: 1024
+          type: string
+          description: String value of the command parameter.
+        scrubberTime:
+          format: date-time
+          type: string
+          description: Timestamp used for timeline scrubbing context.
+      required:
+        - scrubberTime
+      type: object
+    Command:
+      description: A command dispatched to a Formant-connected device.
+      example:
+        commandTemplateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        organizationId: 12326c7f-0b8a-43b9-b35d-6489e6daee91
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        command: my_command
+        parameter:
+          scrubberTime: 2000-01-23T04:56:07.000+00:00
+          value: hello!
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the organization that owns the device.
+        deviceId:
+          format: uuid
+          type: string
+          description: UUID of the target device.
+        commandTemplateId:
+          format: uuid
+          type: string
+          description: UUID of the command template this command is based on.
+        command:
+          type: string
+          description: Command string identifier (must match a registered command template).
+        parameter:
+          $ref: "#/components/schemas/CommandParameter"
+      required:
+        - command
+        - deviceId
+        - parameter
+      type: object
+    CommandTemplate:
+      description: A reusable command definition stored in Formant for dispatching to devices.
+      example:
+        organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        parameterMeta:
+          key: parameterMeta
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: my-command
+        parameterEnabled: true
+        description: Moves robot to a waypoint
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        parameterValue: ""
+        command: move_to_waypoint
+        enabled: true
+        tags:
+          env: production
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the owning organization.
+        name:
+          maxLength: 32
+          type: string
+          description: Human-readable name for the command template.
+        command:
+          type: string
+          description: Machine-readable command identifier sent to the device.
+        tags:
+          additionalProperties:
+            type: string
+          type: object
+          description: Key-value tags for filtering or labelling.
+        description:
+          maxLength: 1024
+          type: string
+          description: Human-readable description of what this command does.
+        parameterEnabled:
+          type: boolean
+          description: Whether this command accepts a parameter value.
+        parameterValue:
+          maxLength: 1024
+          type: string
+          description: Default parameter value.
+        parameterMeta:
+          additionalProperties:
+            type: string
+          type: object
+          description: Metadata about the parameter (e.g. units, label).
+        enabled:
+          type: boolean
+          description: Whether the command template is active.
+        id:
+          format: uuid
+          type: string
+          description: Unique identifier for this command template.
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp.
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last-modification timestamp.
+      required:
+        - command
+        - name
+        - parameterEnabled
+        - tags
+      type: object
+    CommandTemplateListResponse:
+      description: Paginated list of command templates.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CommandTemplate"
+          description: Array of command template objects.
+      type: object
+    ScopeFilter:
+      description: Filter object for scoping stream current-value queries to specific devices and stream types.
+      example:
+        deviceIds:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 0357997f-0b8a-43b9-b35d-123451261212
+        types:
+          - numeric
+          - image
+        names:
+          - motor_temperature
+        notNames:
+          - debug_stream
+      properties:
+        deviceIds:
+          items:
+            format: uuid
+            type: string
+          type: array
+          description: Restrict results to these device UUIDs.
+        names:
+          items:
+            type: string
+          type: array
+          description: Include only streams whose name matches one of these values.
+        types:
+          items:
+            enum:
+              - bitset
+              - localization
+              - point cloud
+              - location
+              - file
+              - health
+              - transform tree
+              - battery
+              - video
+              - numeric set
+              - json
+              - image
+              - numeric
+              - text
+            type: string
+          type: array
+          description: Restrict to these Formant stream types.
+        notNames:
+          items:
+            type: string
+          type: array
+          description: Exclude streams whose name matches one of these values.
+      type: object
+    Metadata:
+      description: Stream metadata with the most recent value for a single device stream.
+      example:
+        name: motor_temperature
+        type: numeric
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        tags:
+          unit: celsius
+        currentValue: {}
+      properties:
+        name:
+          type: string
+          description: Stream name (e.g. "motor_temperature").
+        type:
+          type: string
+          enum:
+            - bitset
+            - localization
+            - point cloud
+            - location
+            - file
+            - health
+            - transform tree
+            - battery
+            - video
+            - numeric set
+            - json
+            - image
+            - numeric
+            - text
+          description: Formant stream type.
+        deviceId:
+          format: uuid
+          type: string
+          description: UUID of the device that owns this stream.
+        tags:
+          additionalProperties:
+            type: string
+          type: object
+          description: Key-value tags attached to this stream.
+        currentValue:
+          type: object
+          description: Most recent telemetry value; structure varies by stream type.
+      required:
+        - name
+        - type
+        - deviceId
+      type: object
+    StreamCurrentValueListResponse:
+      description: List of stream metadata objects containing the latest value per stream per device.
+      example:
+        items:
+          - name: motor_temperature
+            type: numeric
+            deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            tags:
+              unit: celsius
+            currentValue: {}
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/Metadata"
+          type: array
+          description: List of stream current-value records.
+      required:
+        - items
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

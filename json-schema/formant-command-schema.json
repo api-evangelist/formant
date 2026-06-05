@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.formant.io/schemas/Command",
+  "title": "Command",
+  "description": "A command dispatched to a Formant-connected device.",
+  "type": "object",
+  "required": ["command", "deviceId", "parameter"],
+  "properties": {
+    "organizationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the organization that owns the device."
+    },
+    "deviceId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the target device."
+    },
+    "commandTemplateId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the command template this command is based on."
+    },
+    "command": {
+      "type": "string",
+      "description": "Command string identifier matching a registered command template."
+    },
+    "parameter": {
+      "$ref": "#/definitions/CommandParameter"
+    }
+  },
+  "definitions": {
+    "CommandParameter": {
+      "title": "CommandParameter",
+      "description": "Optional parameter value and scrubber time attached to a command.",
+      "type": "object",
+      "required": ["scrubberTime"],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "String value of the command parameter."
+        },
+        "scrubberTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp used for timeline scrubbing context."
+        }
+      }
+    }
+  }
+}

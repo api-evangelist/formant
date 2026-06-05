@@ -1,0 +1,49 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.formant.io/v1/queries/stream-current-value",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+    },
+    "body": {
+      "deviceIds": [
+        "a1b2c3d4-0b8a-43b9-b35d-6489e6daee91",
+        "b2c3d4e5-0b8a-43b9-b35d-6489e6daee91"
+      ],
+      "types": ["numeric", "battery"],
+      "names": ["motor_temperature", "battery_level"]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "items": [
+        {
+          "name": "motor_temperature",
+          "type": "numeric",
+          "deviceId": "a1b2c3d4-0b8a-43b9-b35d-6489e6daee91",
+          "tags": {
+            "unit": "celsius",
+            "location": "front-left"
+          },
+          "currentValue": {
+            "timestamp": "2026-06-05T00:00:00.000Z",
+            "value": 42.5
+          }
+        },
+        {
+          "name": "battery_level",
+          "type": "battery",
+          "deviceId": "a1b2c3d4-0b8a-43b9-b35d-6489e6daee91",
+          "tags": {},
+          "currentValue": {
+            "timestamp": "2026-06-05T00:00:00.000Z",
+            "voltage": 24.1,
+            "percentage": 78
+          }
+        }
+      ]
+    }
+  }
+}

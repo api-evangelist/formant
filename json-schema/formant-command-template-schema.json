@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.formant.io/schemas/CommandTemplate",
+  "title": "CommandTemplate",
+  "description": "A reusable command definition stored in Formant for dispatching to robot devices.",
+  "type": "object",
+  "required": ["command", "name", "parameterEnabled", "tags"],
+  "properties": {
+    "organizationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the owning organization."
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 32,
+      "description": "Human-readable name for the command template."
+    },
+    "command": {
+      "type": "string",
+      "description": "Machine-readable command identifier sent to the device."
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Key-value tags for filtering or labelling."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Human-readable description of what this command does."
+    },
+    "parameterEnabled": {
+      "type": "boolean",
+      "description": "Whether this command accepts a parameter value."
+    },
+    "parameterValue": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Default parameter value."
+    },
+    "parameterMeta": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Metadata about the parameter (e.g. units, label)."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the command template is active."
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this command template."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last-modification timestamp."
+    }
+  }
+}

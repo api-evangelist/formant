@@ -1,0 +1,58 @@
+formats:
+  - oas3
+
+rules:
+  formant-operation-ids-dot-notation:
+    message: "Formant operationIds must follow ControllerName.action dot-notation (e.g. CommandController.post)"
+    description: "Formant uses <ControllerName>.<action> as operationId convention."
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Za-z]+Controller\\.[a-z]+"
+
+  formant-uuid-format:
+    message: "ID fields should use format: uuid"
+    description: "All Formant resource identifier fields (organizationId, deviceId, id, etc.) must be typed as string with format uuid."
+    severity: warn
+    given: "$.components.schemas[*].properties[?(@property.match(/Id$/) || @property === 'id')]"
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - uuid
+
+  formant-bearer-auth-required:
+    message: "Non-login endpoints must require bearerAuth security"
+    description: "All Formant API paths except /admin/auth/login must declare bearerAuth security."
+    severity: warn
+    given: "$.paths[?(@property !== '/admin/auth/login')][*]"
+    then:
+      field: security
+      function: truthy
+
+  formant-responses-have-descriptions:
+    message: "Every response object must include a description"
+    description: "Formant API responses should all carry a description field for clarity."
+    severity: warn
+    given: "$.paths[*][*].responses[*]"
+    then:
+      field: description
+      function: truthy
+
+  formant-stream-type-enum:
+    message: "Stream type fields should use the canonical Formant stream type enum"
+    description: "Formant stream types are a fixed vocabulary: bitset, localization, point cloud, location, file, health, transform tree, battery, video, numeric set, json, image, numeric, text."
+    severity: info
+    given: "$.components.schemas[*].properties.type"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            enum:
+              type: array
+              minItems: 1

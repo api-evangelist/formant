@@ -1,0 +1,33 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.formant.io/v1/admin/commands",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+    },
+    "body": {
+      "organizationId": "12326c7f-0b8a-43b9-b35d-6489e6daee91",
+      "deviceId": "a1b2c3d4-0b8a-43b9-b35d-6489e6daee91",
+      "commandTemplateId": "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
+      "command": "move_to_dock",
+      "parameter": {
+        "scrubberTime": "2026-06-05T00:00:00.000Z",
+        "value": "dock_station_1"
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "organizationId": "12326c7f-0b8a-43b9-b35d-6489e6daee91",
+      "deviceId": "a1b2c3d4-0b8a-43b9-b35d-6489e6daee91",
+      "commandTemplateId": "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
+      "command": "move_to_dock",
+      "parameter": {
+        "scrubberTime": "2026-06-05T00:00:00.000Z",
+        "value": "dock_station_1"
+      }
+    }
+  }
+}

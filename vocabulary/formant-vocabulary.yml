@@ -1,0 +1,157 @@
+vocabulary:
+  name: Formant API Vocabulary
+  description: >-
+    Key concepts and terms used across the Formant robotics and physical-operations
+    cloud platform, covering device management, telemetry ingestion, remote operation,
+    incident management, and the Admin API.
+  version: 1.37.3
+  terms:
+    - term: Device
+      definition: >-
+        A physical robot, autonomous vehicle, or connected machine registered
+        in Formant. Identified by a UUID and optionally grouped into fleets.
+        Devices run the Formant Agent to ingest telemetry and receive commands.
+      tags:
+        - core
+        - fleet-management
+
+    - term: Fleet
+      definition: >-
+        A named logical grouping of devices within a Formant organization.
+        Fleets enable bulk operations, shared views, and scheduling of command
+        templates across multiple robots simultaneously.
+      tags:
+        - core
+        - fleet-management
+
+    - term: Stream
+      definition: >-
+        A named, typed channel of telemetry data emitted by a device and stored
+        in Formant. Stream types include numeric, image, text, battery, location,
+        json, bitset, video, health, point cloud, localization, transform tree,
+        and numeric set. Streams are created implicitly on first ingest.
+      tags:
+        - telemetry
+        - data
+
+    - term: Command
+      definition: >-
+        A discrete instruction dispatched to a device via the Formant Admin API.
+        Commands reference a CommandTemplate and carry an optional parameter
+        value and scrubberTime. They are queued and delivered when the device
+        next comes online.
+      tags:
+        - commands
+        - control
+
+    - term: CommandTemplate
+      definition: >-
+        A reusable command definition stored in a Formant organization. Templates
+        define the command identifier string, human-readable name, whether a
+        parameter is accepted, and associated tags. Individual Command objects
+        are instantiated from templates when dispatched to a device.
+      tags:
+        - commands
+        - control
+
+    - term: ScopeFilter
+      definition: >-
+        A filter object used in the /queries/stream-current-value endpoint to
+        restrict results by device UUIDs, stream names, stream types, and
+        excluded stream names. Enables targeted telemetry retrieval across
+        large robot fleets.
+      tags:
+        - data
+        - query
+
+    - term: Intervention Request
+      definition: >-
+        A human-in-the-loop workflow object that captures a request for
+        operator intervention on a device event. Paired with an Intervention
+        Response; used to build on-call and escalation workflows over Formant.
+      tags:
+        - incident-management
+        - workflow
+
+    - term: Annotation
+      definition: >-
+        A structured, queryable label attached to a telemetry stream or time
+        range. Annotations use templates and can be inspected in a spreadsheet
+        view; supports compliance audit trails and post-hoc labelling of
+        robot behavior.
+      tags:
+        - data
+        - audit
+
+    - term: Formant Agent
+      definition: >-
+        An on-robot daemon that runs alongside robot software, ingests telemetry
+        from ROS, ROS 2, or SDK-based sources via configurable adapters, and
+        delivers commands received from the Formant cloud. Communicates with the
+        cloud over a secure peer-to-peer connection managed by the P2P adapter.
+      tags:
+        - agent
+        - on-robot
+
+    - term: Teleoperation
+      definition: >-
+        Real-time remote control of a robot via Formant's WebRTC-backed connection.
+        Supports command buttons, marker arrays, scene modules, multi-image
+        streaming, and joystick-style input. Accessible through the Formant
+        web interface or custom modules built with the Data SDK.
+      tags:
+        - control
+        - realtime
+
+    - term: bearerAuth
+      definition: >-
+        Formant's authentication scheme for API requests. A short-lived JWT
+        access token obtained from POST /v1/admin/auth/login is passed as an
+        HTTP Authorization: Bearer <token> header on all subsequent requests.
+        Service accounts use email/password credentials stored as environment
+        variables FORMANT_EMAIL and FORMANT_PASSWORD.
+      tags:
+        - authentication
+        - security
+
+    - term: Organization
+      definition: >-
+        The top-level tenant entity in Formant. All devices, fleets, users,
+        command templates, streams, and other resources belong to an organization
+        identified by a UUID. Service accounts and SSO configuration are
+        scoped to organizations.
+      tags:
+        - core
+        - multi-tenancy
+
+    - term: Formant Metaphysics
+      definition: >-
+        Formant's AI-powered incident-management layer. Automates alarm triage,
+        predictive maintenance, and SOP-driven investigations by integrating
+        with SCADA systems, Snowflake, Slack, and Microsoft Teams. Queries
+        Formant event and telemetry data to autonomously diagnose and escalate
+        robot fleet issues.
+      tags:
+        - ai
+        - incident-management
+
+    - term: fctl
+      definition: >-
+        Formant's command-line tool for SSH, SCP, and port-forwarding over
+        the Formant peer-to-peer connection. Distributed as a Homebrew tap
+        (FormantIO/homebrew-formant). Enables direct terminal access to devices
+        without requiring a direct network path to the robot.
+      tags:
+        - cli
+        - tooling
+
+    - term: Data SDK
+      definition: >-
+        Formant's JavaScript/TypeScript SDK for building custom modules, custom
+        views, and embedded operator experiences in the browser or Node.js.
+        Provides real-time and historical data access, intermodule communication,
+        video streaming, and 3D scene layer extensibility via the UI Toolkit and
+        Web Toolkit.
+      tags:
+        - sdk
+        - javascript

@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.formant.io/v1/admin/auth/login",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "operator@mycompany.com",
+      "password": "s3cr3tP@ssword"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "authentication": {
+        "organizationId": "12326c7f-0b8a-43b9-b35d-6489e6daee91",
+        "isSuperuser": false,
+        "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "userId": "046b6c7f-0b8a-43b9-b35d-6489e6daee91",
+        "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+      },
+      "challenge": null
+    }
+  }
+}

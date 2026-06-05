@@ -1,0 +1,134 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "formant": "https://api.formant.io/v1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ssn": "http://www.w3.org/ns/ssn/",
+    "sosa": "http://www.w3.org/ns/sosa/",
+
+    "Organization": "schema:Organization",
+    "Device": {
+      "@id": "sosa:Platform",
+      "@type": "@id"
+    },
+    "Fleet": {
+      "@id": "formant:Fleet",
+      "@type": "@id"
+    },
+    "Stream": {
+      "@id": "sosa:ObservableProperty",
+      "@type": "@id"
+    },
+    "Command": {
+      "@id": "formant:Command",
+      "@type": "@id"
+    },
+    "CommandTemplate": {
+      "@id": "formant:CommandTemplate",
+      "@type": "@id"
+    },
+    "Annotation": {
+      "@id": "formant:Annotation",
+      "@type": "@id"
+    },
+    "InterventionRequest": {
+      "@id": "formant:InterventionRequest",
+      "@type": "@id"
+    },
+
+    "id": "@id",
+    "organizationId": {
+      "@id": "formant:organizationId",
+      "@type": "xsd:string"
+    },
+    "deviceId": {
+      "@id": "formant:deviceId",
+      "@type": "xsd:string"
+    },
+    "name": "schema:name",
+    "description": "schema:description",
+    "command": {
+      "@id": "formant:command",
+      "@type": "xsd:string"
+    },
+    "commandTemplateId": {
+      "@id": "formant:commandTemplateId",
+      "@type": "xsd:string"
+    },
+    "parameter": {
+      "@id": "formant:parameter",
+      "@type": "@id"
+    },
+    "value": {
+      "@id": "schema:value",
+      "@type": "xsd:string"
+    },
+    "scrubberTime": {
+      "@id": "formant:scrubberTime",
+      "@type": "xsd:dateTime"
+    },
+    "type": {
+      "@id": "schema:additionalType",
+      "@type": "xsd:string"
+    },
+    "tags": {
+      "@id": "schema:keywords",
+      "@type": "@id"
+    },
+    "currentValue": {
+      "@id": "sosa:hasSimpleResult"
+    },
+    "accessToken": {
+      "@id": "formant:accessToken",
+      "@type": "xsd:string"
+    },
+    "refreshToken": {
+      "@id": "formant:refreshToken",
+      "@type": "xsd:string"
+    },
+    "userId": {
+      "@id": "formant:userId",
+      "@type": "xsd:string"
+    },
+    "email": "schema:email",
+    "enabled": {
+      "@id": "schema:actionStatus",
+      "@type": "xsd:boolean"
+    },
+    "createdAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updatedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "items": {
+      "@id": "schema:itemListElement",
+      "@container": "@list"
+    },
+
+    "Formant": {
+      "@id": "schema:Organization",
+      "@type": "@id"
+    },
+    "url": "schema:url",
+    "industry": "schema:industry",
+    "sameAs": "schema:sameAs"
+  },
+  "@graph": [
+    {
+      "@type": "Formant",
+      "name": "Formant",
+      "url": "https://formant.io",
+      "description": "Robotics and physical-operations cloud platform for fleet observability, teleoperation, incident management, and custom robot management experiences.",
+      "industry": "Robotics, Industrial Automation, Physical Operations",
+      "sameAs": [
+        "https://github.com/FormantIO",
+        "https://www.linkedin.com/company/formant",
+        "https://twitter.com/formantio"
+      ]
+    }
+  ]
+}

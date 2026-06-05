@@ -1,0 +1,20 @@
+{
+  "name": "Command",
+  "description": "A command dispatched to a Formant-connected robot device.",
+  "fields": [
+    {"name": "organizationId", "type": "string (uuid)", "required": false, "description": "UUID of the owning organization"},
+    {"name": "deviceId", "type": "string (uuid)", "required": true, "description": "UUID of the target device"},
+    {"name": "commandTemplateId", "type": "string (uuid)", "required": false, "description": "UUID of the source command template"},
+    {"name": "command", "type": "string", "required": true, "description": "Machine-readable command identifier"},
+    {
+      "name": "parameter",
+      "type": "object",
+      "required": true,
+      "description": "Parameter payload for the command",
+      "fields": [
+        {"name": "value", "type": "string (max 1024)", "required": false, "description": "String value of the parameter"},
+        {"name": "scrubberTime", "type": "string (date-time)", "required": true, "description": "Timestamp for timeline scrubbing context"}
+      ]
+    }
+  ]
+}

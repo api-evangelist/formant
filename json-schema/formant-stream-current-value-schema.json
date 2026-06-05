@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.formant.io/schemas/StreamCurrentValueListResponse",
+  "title": "StreamCurrentValueListResponse",
+  "description": "List of stream metadata objects containing the latest telemetry value per stream per device.",
+  "type": "object",
+  "required": ["items"],
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "List of stream current-value records.",
+      "items": {
+        "$ref": "#/definitions/Metadata"
+      }
+    }
+  },
+  "definitions": {
+    "Metadata": {
+      "title": "Metadata",
+      "description": "Stream metadata with the most recent value for a single device stream.",
+      "type": "object",
+      "required": ["name", "type", "deviceId"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Stream name (e.g. motor_temperature)."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "bitset",
+            "localization",
+            "point cloud",
+            "location",
+            "file",
+            "health",
+            "transform tree",
+            "battery",
+            "video",
+            "numeric set",
+            "json",
+            "image",
+            "numeric",
+            "text"
+          ],
+          "description": "Formant stream type."
+        },
+        "deviceId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "UUID of the device that owns this stream."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Key-value tags attached to this stream."
+        },
+        "currentValue": {
+          "type": "object",
+          "description": "Most recent telemetry value; structure varies by stream type."
+        }
+      }
+    }
+  }
+}

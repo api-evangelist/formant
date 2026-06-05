@@ -1,0 +1,29 @@
+{
+  "name": "StreamCurrentValueListResponse",
+  "description": "Response containing the latest telemetry value for each matched stream across devices.",
+  "fields": [
+    {
+      "name": "items",
+      "type": "array",
+      "required": true,
+      "description": "List of stream current-value records",
+      "items": {
+        "name": "Metadata",
+        "description": "Stream metadata with the most recent value",
+        "fields": [
+          {"name": "name", "type": "string", "required": true, "description": "Stream name (e.g. motor_temperature)"},
+          {
+            "name": "type",
+            "type": "string (enum)",
+            "required": true,
+            "description": "Formant stream type",
+            "values": ["bitset", "localization", "point cloud", "location", "file", "health", "transform tree", "battery", "video", "numeric set", "json", "image", "numeric", "text"]
+          },
+          {"name": "deviceId", "type": "string (uuid)", "required": true, "description": "UUID of the device owning this stream"},
+          {"name": "tags", "type": "object (string map)", "required": false, "description": "Key-value tags on the stream"},
+          {"name": "currentValue", "type": "object", "required": false, "description": "Latest telemetry value; structure varies by stream type"}
+        ]
+      }
+    }
+  ]
+}
