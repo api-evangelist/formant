@@ -130,7 +130,7 @@ apis:
         url: https://docs.formant.io/reference/agent-sdk-reference
       - type: Documentation
         url: https://docs.formant.io/reference/agent-sdk-protos
-      - type: SDK
+      - type: SDKs
         url: https://pypi.org/project/formant/
   - aid: formant:formant-cloud-sdk
     name: Formant Cloud SDK
@@ -153,7 +153,7 @@ apis:
         url: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
       - type: Documentation
         url: https://docs.formant.io/reference/cloud-sdk-reference
-      - type: SDK
+      - type: SDKs
         url: https://pypi.org/project/formant/
   - aid: formant:formant-data-sdk
     name: Formant Data SDK (JavaScript / TypeScript)
@@ -267,14 +267,14 @@ common:
     url: https://docs.formant.io/recipes
   - type: ChangeLog
     url: https://docs.formant.io/changelog
-  - type: Roadmap
+  - type: RoadMap
     url: https://feedback.formant.io/feedback
   - type: AIIndex
     name: llms.txt
     url: https://docs.formant.io/llms.txt
-  - type: SignUp
+  - type: Signup
     url: https://app.formant.io/signup
-  - type: SignIn
+  - type: Login
     url: https://app.formant.io
   - type: GitHubOrganization
     url: https://github.com/FormantIO
@@ -365,13 +365,13 @@ common:
   - type: SourceCode
     name: FormantIO/formant-style-guide — Formant Brand Style Guide 2026
     url: https://github.com/FormantIO/formant-style-guide
-  - type: SDK
+  - type: SDKs
     name: Python (PyPI)
     url: https://pypi.org/project/formant/
-  - type: Tool
+  - type: Tools
     name: fctl CLI
     url: https://docs.formant.io/reference/fctl-overview-and-installation
-  - type: SignUp
+  - type: Signup
     url: https://app.formant.io/signup
   - type: Pricing
     url: https://formant.io/pricing
