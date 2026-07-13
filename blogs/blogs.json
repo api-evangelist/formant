@@ -2,13 +2,11 @@
   "repo": "formant",
   "feeds": [
     {
-      "source": "https://formant.io/notes",
-      "feed_url": "",
-      "saved": 0,
-      "method": "agent-scrape"
+      "source": "https://formant.io/pricing",
+      "error": "HTTPError"
     }
   ],
   "post_count": 8,
-  "fetched": "2026-06-27T12:42:46Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "agent_pulled": "2026-06-27"
 }
