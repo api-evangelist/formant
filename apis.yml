@@ -188,6 +188,8 @@ apis:
       - type: SourceCode
         url: https://github.com/FormantIO/FormantMobile
 common:
+  - type: AgenticAccess
+    url: agentic-access/formant-agentic-access.yml
   - type: DomainSecurity
     url: security/formant-domain-security.yml
   - type: Authentication
