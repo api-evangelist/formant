@@ -1,0 +1,194 @@
+openapi: 3.0.0
+info:
+  title: Formant Admin Authentication Commands API
+  description: Welcome to Formant's developer documentation. This page covers the common API endpoints for making custom experiences with Formant.io — a robotics and physical-operations cloud platform. The API covers authentication, device and fleet management, command dispatch, stream current-value queries, and more.
+  version: 1.37.3
+  contact:
+    name: Formant Support
+    url: https://docs.formant.io
+servers:
+- url: https://api.formant.io/v1
+  description: Formant production API
+tags:
+- name: Commands
+paths:
+  /admin/command-templates/:
+    get:
+      description: List commands that you can send to your devices.
+      operationId: CommandTemplateController.list
+      responses:
+        '200':
+          description: List of command templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandTemplateListResponse'
+        '401':
+          description: Unauthorized
+      security:
+      - bearerAuth: []
+      summary: List the commands available
+      tags:
+      - Commands
+  /admin/commands:
+    post:
+      description: Create a command that will be received by a device when it is next online.
+      operationId: CommandController.post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Command'
+        description: Command
+        required: true
+      responses:
+        '201':
+          description: Command created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Command'
+        '401':
+          description: Unauthorized
+      security:
+      - bearerAuth: []
+      summary: Send a command to a device
+      tags:
+      - Commands
+components:
+  schemas:
+    Command:
+      description: A command dispatched to a Formant-connected device.
+      example:
+        commandTemplateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        organizationId: 12326c7f-0b8a-43b9-b35d-6489e6daee91
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        command: my_command
+        parameter:
+          scrubberTime: 2000-01-23 04:56:07+00:00
+          value: hello!
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the organization that owns the device.
+        deviceId:
+          format: uuid
+          type: string
+          description: UUID of the target device.
+        commandTemplateId:
+          format: uuid
+          type: string
+          description: UUID of the command template this command is based on.
+        command:
+          type: string
+          description: Command string identifier (must match a registered command template).
+        parameter:
+          $ref: '#/components/schemas/CommandParameter'
+      required:
+      - command
+      - deviceId
+      - parameter
+      type: object
+    CommandTemplate:
+      description: A reusable command definition stored in Formant for dispatching to devices.
+      example:
+        organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        parameterMeta:
+          key: parameterMeta
+        createdAt: 2000-01-23 04:56:07+00:00
+        name: my-command
+        parameterEnabled: true
+        description: Moves robot to a waypoint
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        parameterValue: ''
+        command: move_to_waypoint
+        enabled: true
+        tags:
+          env: production
+        updatedAt: 2000-01-23 04:56:07+00:00
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the owning organization.
+        name:
+          maxLength: 32
+          type: string
+          description: Human-readable name for the command template.
+        command:
+          type: string
+          description: Machine-readable command identifier sent to the device.
+        tags:
+          additionalProperties:
+            type: string
+          type: object
+          description: Key-value tags for filtering or labelling.
+        description:
+          maxLength: 1024
+          type: string
+          description: Human-readable description of what this command does.
+        parameterEnabled:
+          type: boolean
+          description: Whether this command accepts a parameter value.
+        parameterValue:
+          maxLength: 1024
+          type: string
+          description: Default parameter value.
+        parameterMeta:
+          additionalProperties:
+            type: string
+          type: object
+          description: Metadata about the parameter (e.g. units, label).
+        enabled:
+          type: boolean
+          description: Whether the command template is active.
+        id:
+          format: uuid
+          type: string
+          description: Unique identifier for this command template.
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp.
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last-modification timestamp.
+      required:
+      - command
+      - name
+      - parameterEnabled
+      - tags
+      type: object
+    CommandTemplateListResponse:
+      description: Paginated list of command templates.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandTemplate'
+          description: Array of command template objects.
+      type: object
+    CommandParameter:
+      description: Optional parameter value and scrubber time attached to a command.
+      example:
+        scrubberTime: 2000-01-23 04:56:07+00:00
+        value: hello!
+      properties:
+        value:
+          maxLength: 1024
+          type: string
+          description: String value of the command parameter.
+        scrubberTime:
+          format: date-time
+          type: string
+          description: Timestamp used for timeline scrubbing context.
+      required:
+      - scrubberTime
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

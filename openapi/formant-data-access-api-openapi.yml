@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: Formant Admin Authentication Data Access API
+  description: Welcome to Formant's developer documentation. This page covers the common API endpoints for making custom experiences with Formant.io — a robotics and physical-operations cloud platform. The API covers authentication, device and fleet management, command dispatch, stream current-value queries, and more.
+  version: 1.37.3
+  contact:
+    name: Formant Support
+    url: https://docs.formant.io
+servers:
+- url: https://api.formant.io/v1
+  description: Formant production API
+tags:
+- name: Data Access
+paths:
+  /queries/stream-current-value:
+    post:
+      description: Query the most recent values of devices.
+      operationId: StreamCurrentValueController.query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScopeFilter'
+        description: ScopeFilter
+        required: false
+      responses:
+        '200':
+          description: Current stream values for matching devices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamCurrentValueListResponse'
+        '401':
+          description: Unauthorized
+      security:
+      - bearerAuth: []
+      summary: Query the most recent values of one or many devices
+      tags:
+      - Data Access
+components:
+  schemas:
+    StreamCurrentValueListResponse:
+      description: List of stream metadata objects containing the latest value per stream per device.
+      example:
+        items:
+        - name: motor_temperature
+          type: numeric
+          deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          tags:
+            unit: celsius
+          currentValue: {}
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Metadata'
+          type: array
+          description: List of stream current-value records.
+      required:
+      - items
+      type: object
+    Metadata:
+      description: Stream metadata with the most recent value for a single device stream.
+      example:
+        name: motor_temperature
+        type: numeric
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        tags:
+          unit: celsius
+        currentValue: {}
+      properties:
+        name:
+          type: string
+          description: Stream name (e.g. "motor_temperature").
+        type:
+          type: string
+          enum:
+          - bitset
+          - localization
+          - point cloud
+          - location
+          - file
+          - health
+          - transform tree
+          - battery
+          - video
+          - numeric set
+          - json
+          - image
+          - numeric
+          - text
+          description: Formant stream type.
+        deviceId:
+          format: uuid
+          type: string
+          description: UUID of the device that owns this stream.
+        tags:
+          additionalProperties:
+            type: string
+          type: object
+          description: Key-value tags attached to this stream.
+        currentValue:
+          type: object
+          description: Most recent telemetry value; structure varies by stream type.
+      required:
+      - name
+      - type
+      - deviceId
+      type: object
+    ScopeFilter:
+      description: Filter object for scoping stream current-value queries to specific devices and stream types.
+      example:
+        deviceIds:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 0357997f-0b8a-43b9-b35d-123451261212
+        types:
+        - numeric
+        - image
+        names:
+        - motor_temperature
+        notNames:
+        - debug_stream
+      properties:
+        deviceIds:
+          items:
+            format: uuid
+            type: string
+          type: array
+          description: Restrict results to these device UUIDs.
+        names:
+          items:
+            type: string
+          type: array
+          description: Include only streams whose name matches one of these values.
+        types:
+          items:
+            enum:
+            - bitset
+            - localization
+            - point cloud
+            - location
+            - file
+            - health
+            - transform tree
+            - battery
+            - video
+            - numeric set
+            - json
+            - image
+            - numeric
+            - text
+            type: string
+          type: array
+          description: Restrict to these Formant stream types.
+        notNames:
+          items:
+            type: string
+          type: array
+          description: Exclude streams whose name matches one of these values.
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

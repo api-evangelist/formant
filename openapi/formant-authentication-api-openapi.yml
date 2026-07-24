@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  title: Formant Admin Authentication API
+  description: Welcome to Formant's developer documentation. This page covers the common API endpoints for making custom experiences with Formant.io — a robotics and physical-operations cloud platform. The API covers authentication, device and fleet management, command dispatch, stream current-value queries, and more.
+  version: 1.37.3
+  contact:
+    name: Formant Support
+    url: https://docs.formant.io
+servers:
+- url: https://api.formant.io/v1
+  description: Formant production API
+tags:
+- name: Authentication
+paths:
+  /admin/auth/login:
+    post:
+      description: Login with your user credentials or service account credentials to get an auth token that can be used to access the other API endpoints.
+      operationId: AuthController.login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        description: LoginRequest
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResult'
+        '401':
+          description: Invalid credentials
+      summary: Login and get an auth bearer token
+      tags:
+      - Authentication
+components:
+  schemas:
+    LoginRequest:
+      description: Credentials for authenticating with the Formant API.
+      example:
+        email: me@mycompany.com
+        password: '12345'
+      properties:
+        email:
+          format: email
+          type: string
+          description: User email address or service account email.
+        password:
+          type: string
+          description: User password or service account secret.
+      required:
+      - email
+      - password
+      type: object
+    Authentication:
+      description: JWT authentication result returned on successful login.
+      example:
+        organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        isSuperuser: true
+        accessToken: eyJhbGciOiJSUzI1NiJ9...
+        userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        refreshToken: eyJhbGciOiJSUzI1NiJ9...
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the authenticated organization.
+        isSuperuser:
+          type: boolean
+          description: Whether the authenticated user has superuser privileges.
+        accessToken:
+          type: string
+          description: Short-lived JWT bearer token for API calls.
+        userId:
+          format: uuid
+          type: string
+          description: UUID of the authenticated user.
+        refreshToken:
+          type: string
+          description: Long-lived token used to refresh the accessToken.
+      required:
+      - accessToken
+      - userId
+      - organizationId
+      type: object
+    LoginResult:
+      description: Response returned by the login endpoint.
+      example:
+        challenge:
+          session: session
+          type: new-password-required
+          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          email: user@example.com
+        authentication:
+          organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          isSuperuser: true
+          accessToken: accessToken
+          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          refreshToken: refreshToken
+      properties:
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+        challenge:
+          $ref: '#/components/schemas/Challenge'
+      required:
+      - authentication
+      type: object
+    Challenge:
+      description: Authentication challenge for first-login scenarios (e.g. password reset required).
+      example:
+        session: session-string
+        type: new-password-required
+        userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        email: me@mycompany.com
+      properties:
+        session:
+          type: string
+          description: Session token for the challenge flow.
+        type:
+          type: string
+          enum:
+          - new-password-required
+          description: Type of challenge that must be satisfied.
+        userId:
+          format: uuid
+          type: string
+          description: UUID of the user subject to the challenge.
+        email:
+          type: string
+          description: Email of the user subject to the challenge.
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
