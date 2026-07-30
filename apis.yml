@@ -28,7 +28,19 @@ description: >-
   module boilerplate, Data SDK examples for Node.js and React Native, a
   Homebrew tap for `fctl`, and a public JSON-schema repo for module
   configuration.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/formant.png
 url: https://raw.githubusercontent.com/api-evangelist/formant/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-05-25'
@@ -53,140 +65,159 @@ kind: contract
 position: Consuming
 access: 3rd-Party
 apis:
-  - aid: formant:formant-admin-api
-    name: Formant Admin API
-    description: >-
-      Formant's primary REST API, served from `https://api.formant.io/v1/admin`.
-      Covers devices, fleets, streams, views, teleop views, commands and command
-      templates, schedules, events and custom events, annotations and annotation
-      templates, files (multipart begin/complete upload), key-value storage,
-      intervention requests and responses, document sets, insights, roles,
-      users, service accounts, tag templates, task summaries and task-summary
-      formats, sharing tokens, analytics (aggregates, datapoints, table/columns,
-      task reports), presence and online-device monitoring, usage metrics, and
-      stream current-value queries. Endpoints follow a `<resource>controller`
-      naming convention (e.g. `devicecontrollerquery`, `eventcontrollerhistogram`,
-      `fleetcontrollergetdevices`). The reference is rendered as ReadMe-hosted
-      OpenAPI pages but Formant does not publish a single downloadable
-      OpenAPI spec file.
-    humanURL: https://docs.formant.io/reference
-    baseURL: https://api.formant.io/v1/admin
-    tags:
-      - Admin
-      - Devices
-      - Fleets
-      - Streams
-      - Events
-      - Commands
-      - Teleoperation
-    properties:
-      - type: Documentation
-        url: https://docs.formant.io/reference
-      - type: Documentation
-        url: https://docs.formant.io/reference/devicecontrollerpost
-      - type: Documentation
-        url: https://docs.formant.io/reference/fleetcontrollerlist
-      - type: Documentation
-        url: https://docs.formant.io/reference/eventcontrollerquery
-      - type: Documentation
-        url: https://docs.formant.io/reference/commandcontrollerpost
-      - type: Documentation
-        url: https://docs.formant.io/reference/viewcontrollerpost
-      - type: Documentation
-        url: https://docs.formant.io/reference/interventionrequestcontrollerpost
-      - type: Documentation
-        url: https://docs.formant.io/reference/filecontrollerbeginupload
-      - type: Documentation
-        url: https://docs.formant.io/reference/analyticscontrollerlistaggregates
-      - type: Documentation
-        url: https://docs.formant.io/reference/authcontrollerlogin
-      - type: Authentication
-        url: https://docs.formant.io/reference/authcontrollerlogin
-      - type: ServiceAccount
-        url: https://docs.formant.io/docs/getting-started-create-a-service-account
-  - aid: formant:formant-agent-sdk
-    name: Formant Agent SDK
-    description: >-
-      Python client embedded in the `formant` PyPI package (`pip install formant`,
-      `from formant.sdk.agent.v1 import Client`). Runs on-robot alongside the
-      Formant agent and exposes typed ingestion methods — `post_image`,
-      `post_numeric`, `post_numericset`, `post_bitset`, `post_text`,
-      `post_geolocation`, `post_battery`, `post_json` — plus
-      `register_command_request_callback` / `send_command_response` for
-      bidirectional command handling and teleoperation hooks. Stream creation is
-      implicit on first ingest. Use it when you are not on ROS and want to drive
-      Formant from robot-side Python, or when you want finer-grained control than
-      the ROS adapter provides.
-    humanURL: https://docs.formant.io/reference/agent-sdk-installation-and-overview
-    tags:
-      - SDK
-      - Agent
-      - Python
-      - Telemetry
-    properties:
-      - type: Documentation
-        url: https://docs.formant.io/reference/agent-sdk-installation-and-overview
-      - type: Documentation
-        url: https://docs.formant.io/reference/agent-sdk-reference
-      - type: Documentation
-        url: https://docs.formant.io/reference/agent-sdk-protos
-      - type: SDKs
-        url: https://pypi.org/project/formant/
-  - aid: formant:formant-cloud-sdk
-    name: Formant Cloud SDK
-    description: >-
-      Python client embedded in the `formant` PyPI package
-      (`from formant.sdk.cloud.v1 import Client`). Wraps the Admin API for
-      programmatic query and ingest of datapoints against your Formant
-      organization without going through the agent. Authentication uses
-      `FORMANT_EMAIL` / `FORMANT_PASSWORD` environment variables, or service
-      account credentials generated via the web app or `fctl`.
-    humanURL: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
-    tags:
-      - SDK
-      - Cloud
-      - Python
-      - Data Ingestion
-      - Data Query
-    properties:
-      - type: Documentation
-        url: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
-      - type: Documentation
-        url: https://docs.formant.io/reference/cloud-sdk-reference
-      - type: SDKs
-        url: https://pypi.org/project/formant/
-  - aid: formant:formant-data-sdk
-    name: Formant Data SDK (JavaScript / TypeScript)
-    description: >-
-      Browser- and Node-side JavaScript / TypeScript SDK for building custom
-      modules, custom views, and embedded experiences against Formant's
-      real-time and historical data planes. Powers the UI Toolkit, custom 3D
-      viewer layers, real-time video modules, and intermodule communication.
-      Reference implementations include FormantMobile (React Native),
-      node-data-sdk (Node.js), realtime-sdk-template / -guide / -video-demo,
-      view-embed-react-wrapper, and the broader FormantIO/toolkit meta-repo.
-    humanURL: https://docs.formant.io/reference/data-sdk-1
-    tags:
-      - SDK
-      - JavaScript
-      - TypeScript
-      - Realtime
-      - Custom Modules
-    properties:
-      - type: Documentation
-        url: https://docs.formant.io/reference/data-sdk-1
-      - type: Documentation
-        url: https://docs.formant.io/reference/data-sdk-tour
-      - type: Documentation
-        url: https://docs.formant.io/reference/ui-toolkit
-      - type: Documentation
-        url: https://docs.formant.io/reference/web-toolkit-overview
-      - type: SourceCode
-        url: https://github.com/FormantIO/toolkit
-      - type: SourceCode
-        url: https://github.com/FormantIO/node-data-sdk
-      - type: SourceCode
-        url: https://github.com/FormantIO/FormantMobile
+- aid: formant:formant-admin-api
+  name: Formant Admin API
+  description: >-
+    Formant's primary REST API, served from `https://api.formant.io/v1/admin`. Covers devices, fleets,
+    streams, views, teleop views, commands and command templates, schedules, events and custom events,
+    annotations and annotation templates, files (multipart begin/complete upload), key-value storage,
+    intervention requests and responses, document sets, insights, roles, users, service accounts, tag
+    templates, task summaries and task-summary formats, sharing tokens, analytics (aggregates, datapoints,
+    table/columns, task reports), presence and online-device monitoring, usage metrics, and stream current-value
+    queries. Endpoints follow a `<resource>controller` naming convention (e.g. `devicecontrollerquery`,
+    `eventcontrollerhistogram`, `fleetcontrollergetdevices`). The reference is rendered as ReadMe-hosted
+    OpenAPI pages but Formant does not publish a single downloadable OpenAPI spec file.
+  humanURL: https://docs.formant.io/reference
+  baseURL: https://api.formant.io/v1/admin
+  tags:
+  - Admin
+  - Devices
+  - Fleets
+  - Streams
+  - Events
+  - Commands
+  - Teleoperation
+  properties:
+  - type: Documentation
+    url: https://docs.formant.io/reference
+  - type: Documentation
+    url: https://docs.formant.io/reference/devicecontrollerpost
+  - type: Documentation
+    url: https://docs.formant.io/reference/fleetcontrollerlist
+  - type: Documentation
+    url: https://docs.formant.io/reference/eventcontrollerquery
+  - type: Documentation
+    url: https://docs.formant.io/reference/commandcontrollerpost
+  - type: Documentation
+    url: https://docs.formant.io/reference/viewcontrollerpost
+  - type: Documentation
+    url: https://docs.formant.io/reference/interventionrequestcontrollerpost
+  - type: Documentation
+    url: https://docs.formant.io/reference/filecontrollerbeginupload
+  - type: Documentation
+    url: https://docs.formant.io/reference/analyticscontrollerlistaggregates
+  - type: Documentation
+    url: https://docs.formant.io/reference/authcontrollerlogin
+  - type: Authentication
+    url: https://docs.formant.io/reference/authcontrollerlogin
+  - type: ServiceAccount
+    url: https://docs.formant.io/docs/getting-started-create-a-service-account
+- aid: formant:formant-agent-sdk
+  name: Formant Agent SDK
+  description: >-
+    Python client embedded in the `formant` PyPI package (`pip install formant`, `from formant.sdk.agent.v1
+    import Client`). Runs on-robot alongside the Formant agent and exposes typed ingestion methods — `post_image`,
+    `post_numeric`, `post_numericset`, `post_bitset`, `post_text`, `post_geolocation`, `post_battery`,
+    `post_json` — plus `register_command_request_callback` / `send_command_response` for bidirectional
+    command handling and teleoperation hooks. Stream creation is implicit on first ingest. Use it when
+    you are not on ROS and want to drive Formant from robot-side Python, or when you want finer-grained
+    control than the ROS adapter provides.
+  humanURL: https://docs.formant.io/reference/agent-sdk-installation-and-overview
+  tags:
+  - SDK
+  - Agent
+  - Python
+  - Telemetry
+  properties:
+  - type: Documentation
+    url: https://docs.formant.io/reference/agent-sdk-installation-and-overview
+  - type: Documentation
+    url: https://docs.formant.io/reference/agent-sdk-reference
+  - type: Documentation
+    url: https://docs.formant.io/reference/agent-sdk-protos
+  - type: SDKs
+    url: https://pypi.org/project/formant/
+- aid: formant:formant-cloud-sdk
+  name: Formant Cloud SDK
+  description: >-
+    Python client embedded in the `formant` PyPI package (`from formant.sdk.cloud.v1 import Client`).
+    Wraps the Admin API for programmatic query and ingest of datapoints against your Formant organization
+    without going through the agent. Authentication uses `FORMANT_EMAIL` / `FORMANT_PASSWORD` environment
+    variables, or service account credentials generated via the web app or `fctl`.
+  humanURL: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
+  tags:
+  - SDK
+  - Cloud
+  - Python
+  - Data Ingestion
+  - Data Query
+  properties:
+  - type: Documentation
+    url: https://docs.formant.io/reference/cloud-sdk-installation-and-overview
+  - type: Documentation
+    url: https://docs.formant.io/reference/cloud-sdk-reference
+  - type: SDKs
+    url: https://pypi.org/project/formant/
+- aid: formant:formant-data-sdk
+  name: Formant Data SDK (JavaScript / TypeScript)
+  description: >-
+    Browser- and Node-side JavaScript / TypeScript SDK for building custom modules, custom views, and
+    embedded experiences against Formant's real-time and historical data planes. Powers the UI Toolkit,
+    custom 3D viewer layers, real-time video modules, and intermodule communication. Reference implementations
+    include FormantMobile (React Native), node-data-sdk (Node.js), realtime-sdk-template / -guide / -video-demo,
+    view-embed-react-wrapper, and the broader FormantIO/toolkit meta-repo.
+  humanURL: https://docs.formant.io/reference/data-sdk-1
+  tags:
+  - SDK
+  - JavaScript
+  - TypeScript
+  - Realtime
+  - Custom Modules
+  properties:
+  - type: Documentation
+    url: https://docs.formant.io/reference/data-sdk-1
+  - type: Documentation
+    url: https://docs.formant.io/reference/data-sdk-tour
+  - type: Documentation
+    url: https://docs.formant.io/reference/ui-toolkit
+  - type: Documentation
+    url: https://docs.formant.io/reference/web-toolkit-overview
+  - type: SourceCode
+    url: https://github.com/FormantIO/toolkit
+  - type: SourceCode
+    url: https://github.com/FormantIO/node-data-sdk
+  - type: SourceCode
+    url: https://github.com/FormantIO/FormantMobile
+- aid: formant:formant-authentication-api
+  name: Formant Authentication API
+  description: The Authentication API from Formant — 1 operation(s) for authentication.
+  humanURL: https://docs.formant.io/reference
+  baseURL: https://api.formant.io/v1/admin
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/formant-authentication-api-openapi.yml
+- aid: formant:formant-commands-api
+  name: Formant Commands API
+  description: The Commands API from Formant — 2 operation(s) for commands.
+  humanURL: https://docs.formant.io/reference
+  baseURL: https://api.formant.io/v1/admin
+  tags:
+  - Commands
+  properties:
+  - type: OpenAPI
+    url: openapi/formant-commands-api-openapi.yml
+- aid: formant:formant-data-access-api
+  name: Formant Data Access API
+  description: The Data Access API from Formant — 1 operation(s) for data access.
+  humanURL: https://docs.formant.io/reference
+  baseURL: https://api.formant.io/v1/admin
+  tags:
+  - Data Access
+  properties:
+  - type: OpenAPI
+    url: openapi/formant-data-access-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/formant-agentic-access.yml
