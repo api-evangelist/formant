@@ -1,0 +1,18 @@
+{
+  "provider": "formant",
+  "sources": [
+    "formant-authentication-api-openapi.yml",
+    "formant-commands-api-openapi.yml",
+    "formant-data-access-api-openapi.yml"
+  ],
+  "outputs": [
+    "formant-authentication-api-openapi.yml",
+    "formant-commands-api-openapi.yml",
+    "formant-data-access-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
