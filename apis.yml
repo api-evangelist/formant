@@ -219,6 +219,11 @@ apis:
   - type: OpenAPI
     url: openapi/formant-data-access-api-openapi.yml
 common:
+  - type: IssueTracker
+    url: https://github.com/FormantIO/toolkit/issues
+  - type: License
+    name: MIT
+    url: https://github.com/FormantIO/toolkit/blob/master/LICENSE
   - type: AgenticAccess
     url: agentic-access/formant-agentic-access.yml
   - type: DomainSecurity
