@@ -1,0 +1,189 @@
+{
+  "item": [
+    {
+      "id": "fbe4e99c-a4c2-49e1-a473-0b85bacacbd3",
+      "name": "Data Access",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "29ac7633-59e2-4c7b-a681-7579349e54f5",
+          "name": "Query the most recent values of one or many devices",
+          "request": {
+            "name": "Query the most recent values of one or many devices",
+            "description": {
+              "content": "Query the most recent values of devices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "queries",
+                "stream-current-value"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"notNames\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b9129b5f-713a-4780-8524-01a4ac20f858",
+              "name": "Current stream values for matching devices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queries",
+                    "stream-current-value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"notNames\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"motor_temperature\",\n      \"type\": \"numeric\",\n      \"deviceId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n      \"tags\": {\n        \"unit\": \"celsius\"\n      },\n      \"currentValue\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5117305-15c7-4e3d-a3c2-38fd500f6fe9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queries",
+                    "stream-current-value"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceIds\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"notNames\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.formant.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "aacd3517-9bd2-4c04-b90a-4805a895e1f7",
+    "name": "Formant Admin Authentication Data Access API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to Formant's developer documentation. This page covers the common API endpoints for making custom experiences with Formant.io — a robotics and physical-operations cloud platform. The API covers authentication, device and fleet management, command dispatch, stream current-value queries, and more.\n\nContact Support:\n Name: Formant Support",
+      "type": "text/plain"
+    }
+  }
+}

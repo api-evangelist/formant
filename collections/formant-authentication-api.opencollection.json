@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Formant Admin Authentication API",
+    "version": "1.37.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login and get an auth bearer token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.formant.io/v1/admin/auth/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Login with your user credentials or service account credentials to get an auth token that can be used to access the other API endpoints."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

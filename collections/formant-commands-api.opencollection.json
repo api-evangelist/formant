@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Formant Admin Authentication Commands API",
+    "version": "1.37.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Commands",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List the commands available",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.formant.io/v1/admin/command-templates/",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List commands that you can send to your devices."
+        },
+        {
+          "info": {
+            "name": "Send a command to a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.formant.io/v1/admin/commands",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a command that will be received by a device when it is next online."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

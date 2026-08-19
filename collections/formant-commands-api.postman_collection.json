@@ -1,0 +1,320 @@
+{
+  "item": [
+    {
+      "id": "51e48714-876e-45fa-89e8-bb842162f2c6",
+      "name": "Commands",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "99b3cc81-fb84-48f9-abfb-70fb652229a2",
+          "name": "List the commands available",
+          "request": {
+            "name": "List the commands available",
+            "description": {
+              "content": "List commands that you can send to your devices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "command-templates",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1f28ae3f-845c-4c0f-b367-acb04262ed1f",
+              "name": "List of command templates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "command-templates",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"organizationId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n      \"parameterMeta\": {\n        \"key\": \"parameterMeta\"\n      },\n      \"createdAt\": \"2000-01-23 04:56:07+00:00\",\n      \"name\": \"my-command\",\n      \"parameterEnabled\": true,\n      \"description\": \"Moves robot to a waypoint\",\n      \"parameterValue\": \"\",\n      \"command\": \"move_to_waypoint\",\n      \"enabled\": true,\n      \"tags\": {\n        \"env\": \"production\"\n      },\n      \"updatedAt\": \"2000-01-23 04:56:07+00:00\"\n    },\n    {\n      \"organizationId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n      \"parameterMeta\": {\n        \"key\": \"parameterMeta\"\n      },\n      \"createdAt\": \"2000-01-23 04:56:07+00:00\",\n      \"name\": \"my-command\",\n      \"parameterEnabled\": true,\n      \"description\": \"Moves robot to a waypoint\",\n      \"parameterValue\": \"\",\n      \"command\": \"move_to_waypoint\",\n      \"enabled\": true,\n      \"tags\": {\n        \"env\": \"production\"\n      },\n      \"updatedAt\": \"2000-01-23 04:56:07+00:00\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c1a6d1d-3510-4704-b87a-ea8e8c93de6b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "command-templates",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e3a476b-a621-46ac-b02f-6187bd6b8034",
+          "name": "Send a command to a device",
+          "request": {
+            "name": "Send a command to a device",
+            "description": {
+              "content": "Create a command that will be received by a device when it is next online.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "commands"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"command\": \"<string>\",\n  \"deviceId\": \"<uuid>\",\n  \"parameter\": {\n    \"scrubberTime\": \"<dateTime>\",\n    \"value\": \"<string>\"\n  },\n  \"organizationId\": \"<uuid>\",\n  \"commandTemplateId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2659ff07-aabc-49d3-be26-f2127c390d36",
+              "name": "Command created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "commands"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"commandTemplateId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"organizationId\": \"12326c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"deviceId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"command\": \"my_command\",\n  \"parameter\": {\n    \"scrubberTime\": \"2000-01-23 04:56:07+00:00\",\n    \"value\": \"hello!\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"commandTemplateId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"organizationId\": \"12326c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"deviceId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"command\": \"my_command\",\n  \"parameter\": {\n    \"scrubberTime\": \"2000-01-23 04:56:07+00:00\",\n    \"value\": \"hello!\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6ed1697-a5f6-4f96-b1a9-fb4c33ebef66",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "commands"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"commandTemplateId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"organizationId\": \"12326c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"deviceId\": \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",\n  \"command\": \"my_command\",\n  \"parameter\": {\n    \"scrubberTime\": \"2000-01-23 04:56:07+00:00\",\n    \"value\": \"hello!\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.formant.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3e7d96a9-c8a4-442c-9fdb-6e59647c5c34",
+    "name": "Formant Admin Authentication Commands API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to Formant's developer documentation. This page covers the common API endpoints for making custom experiences with Formant.io — a robotics and physical-operations cloud platform. The API covers authentication, device and fleet management, command dispatch, stream current-value queries, and more.\n\nContact Support:\n Name: Formant Support",
+      "type": "text/plain"
+    }
+  }
+}
