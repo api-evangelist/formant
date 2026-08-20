@@ -52,6 +52,22 @@ tags:
   - Observability
   - Telemetry
   - ROS
+  - ROS 2
+  - Edge Devices
+  - Physical Operations
+  - Incident Management
+  - Industrial AI
+  - SCADA
+  - Predictive Maintenance
+  - Remote Monitoring
+  - Embedded Devices
+tags_raw:
+  - Robotics
+  - Robot Fleet Management
+  - Teleoperation
+  - Observability
+  - Telemetry
+  - ROS
   - ROS2
   - Edge Devices
   - Physical Operations
@@ -80,6 +96,14 @@ apis:
   humanURL: https://docs.formant.io/reference
   baseURL: https://api.formant.io/v1/admin
   tags:
+  - Admin
+  - Devices
+  - Fleets
+  - Streams
+  - Event
+  - Commands
+  - Teleoperation
+  tags_raw:
   - Admin
   - Devices
   - Fleets
@@ -125,6 +149,11 @@ apis:
   humanURL: https://docs.formant.io/reference/agent-sdk-installation-and-overview
   tags:
   - SDK
+  - Agents
+  - Python
+  - Telemetry
+  tags_raw:
+  - SDK
   - Agent
   - Python
   - Telemetry
@@ -168,6 +197,12 @@ apis:
     view-embed-react-wrapper, and the broader FormantIO/toolkit meta-repo.
   humanURL: https://docs.formant.io/reference/data-sdk-1
   tags:
+  - SDK
+  - JavaScript
+  - TypeScript
+  - Real-Time
+  - Custom Modules
+  tags_raw:
   - SDK
   - JavaScript
   - TypeScript
