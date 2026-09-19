@@ -102,7 +102,7 @@ apis:
   tags:
   - Admin
   - Devices
-  - Fleets
+  - Fleet
   - Streams
   - Event
   - Commands
