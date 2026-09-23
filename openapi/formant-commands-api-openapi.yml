@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Formant Admin Authentication Commands API
+  title: Formant Admin Commands API
   description: Welcome to Formant's developer documentation. This page covers the common API endpoints for making custom experiences with Formant.io — a robotics and physical-operations cloud platform. The API covers authentication, device and fleet management, command dispatch, stream current-value queries, and more.
   version: 1.37.3
   contact:
@@ -57,38 +57,22 @@ paths:
       - Commands
 components:
   schemas:
-    Command:
-      description: A command dispatched to a Formant-connected device.
+    CommandParameter:
+      description: Optional parameter value and scrubber time attached to a command.
       example:
-        commandTemplateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        organizationId: 12326c7f-0b8a-43b9-b35d-6489e6daee91
-        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        command: my_command
-        parameter:
-          scrubberTime: 2000-01-23 04:56:07+00:00
-          value: hello!
+        scrubberTime: 2000-01-23 04:56:07+00:00
+        value: hello!
       properties:
-        organizationId:
-          format: uuid
+        value:
+          maxLength: 1024
           type: string
-          description: UUID of the organization that owns the device.
-        deviceId:
-          format: uuid
+          description: String value of the command parameter.
+        scrubberTime:
+          format: date-time
           type: string
-          description: UUID of the target device.
-        commandTemplateId:
-          format: uuid
-          type: string
-          description: UUID of the command template this command is based on.
-        command:
-          type: string
-          description: Command string identifier (must match a registered command template).
-        parameter:
-          $ref: '#/components/schemas/CommandParameter'
+          description: Timestamp used for timeline scrubbing context.
       required:
-      - command
-      - deviceId
-      - parameter
+      - scrubberTime
       type: object
     CommandTemplate:
       description: A reusable command definition stored in Formant for dispatching to devices.
@@ -161,6 +145,39 @@ components:
       - parameterEnabled
       - tags
       type: object
+    Command:
+      description: A command dispatched to a Formant-connected device.
+      example:
+        commandTemplateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        organizationId: 12326c7f-0b8a-43b9-b35d-6489e6daee91
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        command: my_command
+        parameter:
+          scrubberTime: 2000-01-23 04:56:07+00:00
+          value: hello!
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the organization that owns the device.
+        deviceId:
+          format: uuid
+          type: string
+          description: UUID of the target device.
+        commandTemplateId:
+          format: uuid
+          type: string
+          description: UUID of the command template this command is based on.
+        command:
+          type: string
+          description: Command string identifier (must match a registered command template).
+        parameter:
+          $ref: '#/components/schemas/CommandParameter'
+      required:
+      - command
+      - deviceId
+      - parameter
+      type: object
     CommandTemplateListResponse:
       description: Paginated list of command templates.
       properties:
@@ -169,23 +186,6 @@ components:
           items:
             $ref: '#/components/schemas/CommandTemplate'
           description: Array of command template objects.
-      type: object
-    CommandParameter:
-      description: Optional parameter value and scrubber time attached to a command.
-      example:
-        scrubberTime: 2000-01-23 04:56:07+00:00
-        value: hello!
-      properties:
-        value:
-          maxLength: 1024
-          type: string
-          description: String value of the command parameter.
-        scrubberTime:
-          format: date-time
-          type: string
-          description: Timestamp used for timeline scrubbing context.
-      required:
-      - scrubberTime
       type: object
   securitySchemes:
     bearerAuth:
