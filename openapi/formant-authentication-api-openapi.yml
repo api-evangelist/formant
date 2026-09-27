@@ -68,45 +68,6 @@ components:
       - userId
       - organizationId
       type: object
-    LoginRequest:
-      description: Credentials for authenticating with the Formant API.
-      example:
-        email: me@mycompany.com
-        password: '12345'
-      properties:
-        email:
-          format: email
-          type: string
-          description: User email address or service account email.
-        password:
-          type: string
-          description: User password or service account secret.
-      required:
-      - email
-      - password
-      type: object
-    LoginResult:
-      description: Response returned by the login endpoint.
-      example:
-        challenge:
-          session: session
-          type: new-password-required
-          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          email: user@example.com
-        authentication:
-          organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          isSuperuser: true
-          accessToken: accessToken
-          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          refreshToken: refreshToken
-      properties:
-        authentication:
-          $ref: '#/components/schemas/Authentication'
-        challenge:
-          $ref: '#/components/schemas/Challenge'
-      required:
-      - authentication
-      type: object
     Challenge:
       description: Authentication challenge for first-login scenarios (e.g. password reset required).
       example:
@@ -130,6 +91,45 @@ components:
         email:
           type: string
           description: Email of the user subject to the challenge.
+      type: object
+    LoginResult:
+      description: Response returned by the login endpoint.
+      example:
+        challenge:
+          session: session
+          type: new-password-required
+          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          email: user@example.com
+        authentication:
+          organizationId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          isSuperuser: true
+          accessToken: accessToken
+          userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          refreshToken: refreshToken
+      properties:
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+        challenge:
+          $ref: '#/components/schemas/Challenge'
+      required:
+      - authentication
+      type: object
+    LoginRequest:
+      description: Credentials for authenticating with the Formant API.
+      example:
+        email: me@mycompany.com
+        password: '12345'
+      properties:
+        email:
+          format: email
+          type: string
+          description: User email address or service account email.
+        password:
+          type: string
+          description: User password or service account secret.
+      required:
+      - email
+      - password
       type: object
   securitySchemes:
     bearerAuth:

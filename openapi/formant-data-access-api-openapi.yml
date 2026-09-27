@@ -39,25 +39,6 @@ paths:
       - Data Access
 components:
   schemas:
-    StreamCurrentValueListResponse:
-      description: List of stream metadata objects containing the latest value per stream per device.
-      example:
-        items:
-        - name: motor_temperature
-          type: numeric
-          deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          tags:
-            unit: celsius
-          currentValue: {}
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Metadata'
-          type: array
-          description: List of stream current-value records.
-      required:
-      - items
-      type: object
     ScopeFilter:
       description: Filter object for scoping stream current-value queries to specific devices and stream types.
       example:
@@ -108,6 +89,25 @@ components:
             type: string
           type: array
           description: Exclude streams whose name matches one of these values.
+      type: object
+    StreamCurrentValueListResponse:
+      description: List of stream metadata objects containing the latest value per stream per device.
+      example:
+        items:
+        - name: motor_temperature
+          type: numeric
+          deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          tags:
+            unit: celsius
+          currentValue: {}
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Metadata'
+          type: array
+          description: List of stream current-value records.
+      required:
+      - items
       type: object
     Metadata:
       description: Stream metadata with the most recent value for a single device stream.
