@@ -39,57 +39,6 @@ paths:
       - Data Access
 components:
   schemas:
-    ScopeFilter:
-      description: Filter object for scoping stream current-value queries to specific devices and stream types.
-      example:
-        deviceIds:
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - 0357997f-0b8a-43b9-b35d-123451261212
-        types:
-        - numeric
-        - image
-        names:
-        - motor_temperature
-        notNames:
-        - debug_stream
-      properties:
-        deviceIds:
-          items:
-            format: uuid
-            type: string
-          type: array
-          description: Restrict results to these device UUIDs.
-        names:
-          items:
-            type: string
-          type: array
-          description: Include only streams whose name matches one of these values.
-        types:
-          items:
-            enum:
-            - bitset
-            - localization
-            - point cloud
-            - location
-            - file
-            - health
-            - transform tree
-            - battery
-            - video
-            - numeric set
-            - json
-            - image
-            - numeric
-            - text
-            type: string
-          type: array
-          description: Restrict to these Formant stream types.
-        notNames:
-          items:
-            type: string
-          type: array
-          description: Exclude streams whose name matches one of these values.
-      type: object
     StreamCurrentValueListResponse:
       description: List of stream metadata objects containing the latest value per stream per device.
       example:
@@ -156,6 +105,57 @@ components:
       - name
       - type
       - deviceId
+      type: object
+    ScopeFilter:
+      description: Filter object for scoping stream current-value queries to specific devices and stream types.
+      example:
+        deviceIds:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 0357997f-0b8a-43b9-b35d-123451261212
+        types:
+        - numeric
+        - image
+        names:
+        - motor_temperature
+        notNames:
+        - debug_stream
+      properties:
+        deviceIds:
+          items:
+            format: uuid
+            type: string
+          type: array
+          description: Restrict results to these device UUIDs.
+        names:
+          items:
+            type: string
+          type: array
+          description: Include only streams whose name matches one of these values.
+        types:
+          items:
+            enum:
+            - bitset
+            - localization
+            - point cloud
+            - location
+            - file
+            - health
+            - transform tree
+            - battery
+            - video
+            - numeric set
+            - json
+            - image
+            - numeric
+            - text
+            type: string
+          type: array
+          description: Restrict to these Formant stream types.
+        notNames:
+          items:
+            type: string
+          type: array
+          description: Exclude streams whose name matches one of these values.
       type: object
   securitySchemes:
     bearerAuth:

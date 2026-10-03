@@ -57,6 +57,39 @@ paths:
       - Commands
 components:
   schemas:
+    Command:
+      description: A command dispatched to a Formant-connected device.
+      example:
+        commandTemplateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        organizationId: 12326c7f-0b8a-43b9-b35d-6489e6daee91
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        command: my_command
+        parameter:
+          scrubberTime: 2000-01-23 04:56:07+00:00
+          value: hello!
+      properties:
+        organizationId:
+          format: uuid
+          type: string
+          description: UUID of the organization that owns the device.
+        deviceId:
+          format: uuid
+          type: string
+          description: UUID of the target device.
+        commandTemplateId:
+          format: uuid
+          type: string
+          description: UUID of the command template this command is based on.
+        command:
+          type: string
+          description: Command string identifier (must match a registered command template).
+        parameter:
+          $ref: '#/components/schemas/CommandParameter'
+      required:
+      - command
+      - deviceId
+      - parameter
+      type: object
     CommandTemplate:
       description: A reusable command definition stored in Formant for dispatching to devices.
       example:
@@ -144,39 +177,6 @@ components:
           description: Timestamp used for timeline scrubbing context.
       required:
       - scrubberTime
-      type: object
-    Command:
-      description: A command dispatched to a Formant-connected device.
-      example:
-        commandTemplateId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        organizationId: 12326c7f-0b8a-43b9-b35d-6489e6daee91
-        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        command: my_command
-        parameter:
-          scrubberTime: 2000-01-23 04:56:07+00:00
-          value: hello!
-      properties:
-        organizationId:
-          format: uuid
-          type: string
-          description: UUID of the organization that owns the device.
-        deviceId:
-          format: uuid
-          type: string
-          description: UUID of the target device.
-        commandTemplateId:
-          format: uuid
-          type: string
-          description: UUID of the command template this command is based on.
-        command:
-          type: string
-          description: Command string identifier (must match a registered command template).
-        parameter:
-          $ref: '#/components/schemas/CommandParameter'
-      required:
-      - command
-      - deviceId
-      - parameter
       type: object
     CommandTemplateListResponse:
       description: Paginated list of command templates.
