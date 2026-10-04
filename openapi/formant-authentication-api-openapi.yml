@@ -83,23 +83,6 @@ components:
           type: string
           description: Email of the user subject to the challenge.
       type: object
-    LoginRequest:
-      description: Credentials for authenticating with the Formant API.
-      example:
-        email: me@mycompany.com
-        password: '12345'
-      properties:
-        email:
-          format: email
-          type: string
-          description: User email address or service account email.
-        password:
-          type: string
-          description: User password or service account secret.
-      required:
-      - email
-      - password
-      type: object
     Authentication:
       description: JWT authentication result returned on successful login.
       example:
@@ -130,6 +113,23 @@ components:
       - accessToken
       - userId
       - organizationId
+      type: object
+    LoginRequest:
+      description: Credentials for authenticating with the Formant API.
+      example:
+        email: me@mycompany.com
+        password: '12345'
+      properties:
+        email:
+          format: email
+          type: string
+          description: User email address or service account email.
+        password:
+          type: string
+          description: User password or service account secret.
+      required:
+      - email
+      - password
       type: object
   securitySchemes:
     bearerAuth:

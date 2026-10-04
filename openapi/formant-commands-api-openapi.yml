@@ -57,6 +57,32 @@ paths:
       - Commands
 components:
   schemas:
+    CommandParameter:
+      description: Optional parameter value and scrubber time attached to a command.
+      example:
+        scrubberTime: 2000-01-23 04:56:07+00:00
+        value: hello!
+      properties:
+        value:
+          maxLength: 1024
+          type: string
+          description: String value of the command parameter.
+        scrubberTime:
+          format: date-time
+          type: string
+          description: Timestamp used for timeline scrubbing context.
+      required:
+      - scrubberTime
+      type: object
+    CommandTemplateListResponse:
+      description: Paginated list of command templates.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandTemplate'
+          description: Array of command template objects.
+      type: object
     Command:
       description: A command dispatched to a Formant-connected device.
       example:
@@ -160,32 +186,6 @@ components:
       - name
       - parameterEnabled
       - tags
-      type: object
-    CommandParameter:
-      description: Optional parameter value and scrubber time attached to a command.
-      example:
-        scrubberTime: 2000-01-23 04:56:07+00:00
-        value: hello!
-      properties:
-        value:
-          maxLength: 1024
-          type: string
-          description: String value of the command parameter.
-        scrubberTime:
-          format: date-time
-          type: string
-          description: Timestamp used for timeline scrubbing context.
-      required:
-      - scrubberTime
-      type: object
-    CommandTemplateListResponse:
-      description: Paginated list of command templates.
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommandTemplate'
-          description: Array of command template objects.
       type: object
   securitySchemes:
     bearerAuth:
